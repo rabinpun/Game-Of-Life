@@ -2,12 +2,10 @@
 let grid;
 let oldGrid
 
-let resolution = 20
+let resolution = 10
 
 let columns
 let rows
-
-var start = false
 
 function setup() {
 
@@ -55,20 +53,15 @@ function draw() {
     }
   }
 
-
   let next = make2DArray(columns,rows);
 
   for( let i = 0; i < columns; i++) {
     for( let j = 0; j < rows; j++) {
-
       let isAlive = grid[i][j];
-
       if (i == 0 || i == columns -1 || j == 0 || j == rows -1) { 
         next[i][j] = isAlive;
        } else {
-    
         let neighbors = countAliveNeighbors(grid, i , j);
-
         if (isAlive == 0 && neighbors == 3) {
           next[i][j] = 1;
         } else if (isAlive == 1 && ( 2 > neighbors || neighbors  > 3)) {
@@ -76,25 +69,22 @@ function draw() {
         } else {
           next[i][j] = isAlive;
         }
-       }
-
+      }
     }
   }
   
-  oldGrid = grid
-
+  oldGrid = grid;
   grid = next;
-
-
 }
 
 function countAliveNeighbors(grid, x, y) {
   let sum = 0;
   for (let i = -1; i < 2; i++) {
     for (let j = -1; j < 2; j++) {
-      sum += grid[x + i][y + j];
+      if (!(i == 0 && j == 0 )) {
+        sum += grid[x + i][y + j];
+      }
     }
   }
-  sum -= grid[x][y];
   return sum;
 }
